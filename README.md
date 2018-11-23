@@ -1,5 +1,5 @@
 # ctwc
-This is a repo to hold all coding projects related to the CTWC (Classic Tetris World Championships).  To start, I've uploaded the "CTWC-Viewer" project.
+This repo holds all coding projects related to the CTWC (Classic Tetris World Championships).  To start, I've uploaded the "CTWC-Viewer" project.
 
 ## Resources
 Here is the YouTube link to all CTWC videos:  
