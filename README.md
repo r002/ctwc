@@ -7,3 +7,9 @@ https://www.youtube.com/channel/UC-8BAEcWSEs4-KQp1ULVnaQ/videos
 
 Here is the Twitch link to CTWC's stream:  
 https://www.twitch.tv/classictetris/videos/all
+
+## Analyzer
+To run the CTWC Video Analyzer:
+```
+C:\code\ctwc>python -m analyzer.runner
+```
