@@ -13,3 +13,12 @@ To run the CTWC Video Analyzer:
 ```
 C:\code\ctwc>python -m analyzer.runner
 ```
+
+## Tasks
+[] Parse the score from a frame.
+[] Parse the next piece that's about to be dropped.
+[] Parse if a line clear is a single/double/triple/Tetris.
+
+
+## Extra Notes
+ROI = image[y1:y2, x1:x2]
