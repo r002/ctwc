@@ -1,5 +1,5 @@
 # ctwc
-This repo holds all coding projects related to the CTWC (Classic Tetris World Championships).  To start, I've uploaded the "CTWC-Viewer" project.
+This repo holds all coding projects related to the CTWC (Classic Tetris World Championships).  To start, I've uploaded the "CTWC Video Analyzer" project.
 
 ## Resources
 Here is the YouTube link to all CTWC videos:  
@@ -15,9 +15,9 @@ C:\code\ctwc>python -m analyzer.runner
 ```
 
 ## Tasks
-[] Parse the score from a frame.
-[] Parse the next piece that's about to be dropped.
-[] Parse if a line clear is a single/double/triple/Tetris.
+- Parse the score from a frame.
+- Parse the next piece that's about to be dropped.
+- Parse if a line clear is a single/double/triple/Tetris.
 
 
 ## Extra Notes
