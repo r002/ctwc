@@ -1,34 +1,31 @@
 import cv2
 import os
 import numpy as np
+from .vars import Vars as v
 
 class Engine(object):
 
     # Load our known templates
     template_root = "C:/code/ctwc/analyzer/templates"
-    i = "I-Shape"
-    j = "J-Shape"
-    l = "L-Shape"
-    o = "O-Shape"
-    s = "S-Shape"
-    t = "T-Shape"
-    z = "Z-Shape"
 
-    i_template = cv2.imread(f"{template_root}/i-template.jpg", 0), i
-    j_template = cv2.imread(f"{template_root}/j-template.jpg", 0), j
-    l_template = cv2.imread(f"{template_root}/l-template.jpg", 0), l
-    o_template = cv2.imread(f"{template_root}/o-template.jpg", 0), o
-    s_template = cv2.imread(f"{template_root}/s-template.jpg", 0), s
-    t_template = cv2.imread(f"{template_root}/t-template.jpg", 0), t
-    z_template = cv2.imread(f"{template_root}/z-template.jpg", 0), z
+    i_template = cv2.imread(f"{template_root}/i-template.jpg", 0), v.i
+    j_template = cv2.imread(f"{template_root}/j-template.jpg", 0), v.j
+    l_template = cv2.imread(f"{template_root}/l-template.jpg", 0), v.l
+    o_template = cv2.imread(f"{template_root}/o-template.jpg", 0), v.o
+    s_template = cv2.imread(f"{template_root}/s-template.jpg", 0), v.s
+    t_template = cv2.imread(f"{template_root}/t-template.jpg", 0), v.t
+    z_template = cv2.imread(f"{template_root}/z-template.jpg", 0), v.z
 
     templates = i_template, j_template, l_template, o_template, s_template, \
                 t_template, z_template
 
-    # Match against our known templates to identify the tetromino
+    video_source = "C:/code/ctwc/analyzer/part01.mp4"
+    output_dir = "C:/code/ctwc/analyzer/frames"
+
+
+    ## Match against our known templates to identify the tetromino
     @staticmethod
-    def identify_tetromino(src_img):
-        image = cv2.imread(src_img)
+    def identify_tetromino(image):
         next_box = image[208:283, 615:703]  # These are the coordinates of the 'Next Box'
 
         # Enlarge the image
@@ -51,6 +48,41 @@ class Engine(object):
         print(f"\nMatch: {champ[0]} - {champ[1]}")
 
 
+    ## This method analyzes a video and identifies what tetromino appears in
+    ## the Next Box
+    @staticmethod
+    def process_video():
+        vidcap = cv2.VideoCapture(Engine.video_source)
+        vidcap.set(cv2.CAP_PROP_POS_MSEC, 132000) # skip to the 2:12 mark (Start of first game)
+
+        count = 0
+        success = True
+        fps = int(vidcap.get(cv2.CAP_PROP_FPS))
+        print(f"fps: {fps}")
+
+        while success:
+            success, image = vidcap.read()
+            if count % (10 * fps) == 0:
+                 seconds = int(count / fps)
+                 # cv2.imwrite(f"{Engine.output_dir}/f-{count}__{seconds}-secs.jpg", image)
+                 # print(f"successfully written {count}th frame at {seconds} seconds")
+
+                 # Run method to analyze the frame we just captured.
+                 # 1. What Tetris piece was just dropped?
+                 Engine.identify_tetromino(image)
+                 cv2.imshow(f"Frame - {seconds}", image)
+                 cv2.waitKey(0)
+
+                 # 2. What is the current score?
+                 # TO-DO
+
+            count += 1
+
+            # if success:
+                # cv2.imwrite("C:/code/ctwc/analyzer/frame50sec.jpg", image)     # save frame as JPEG file
+                # cv2.imshow("20sec", image)
+                # cv2.waitKey(0)
+
     ## This method parses a single inputted frame to ascertain the next
     ## piece that is about to be dropped.
     @staticmethod
@@ -69,8 +101,9 @@ class Engine(object):
 
         _, threshold = cv2.threshold(next_box_gray, 20, 255, cv2.THRESH_BINARY_INV)
 
-        output_dir = "C:/code/ctwc/analyzer/templates"
-        cv2.imwrite(f"{output_dir}/z-template.jpg", threshold)
+        ## Temp code to extract templates
+        # output_dir = "C:/code/ctwc/analyzer/templates"
+        # cv2.imwrite(f"{output_dir}/z-template.jpg", threshold)
 
         _, contours, _ = cv2.findContours(threshold, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
@@ -91,14 +124,11 @@ class Engine(object):
 
         return a
 
+    ## This method extracts a video frame every ten seconds and saves it
+    ## to the /frames directory.
     @staticmethod
     def sample_video():  # video_source, output_dir
-
-        ## TO-DO: Parameterize this later and make them relative
-        video_source = "C:/code/ctwc/analyzer/part01.mp4"
-        output_dir = "C:/code/ctwc/analyzer/frames"
-
-        vidcap = cv2.VideoCapture(video_source)
+        vidcap = cv2.VideoCapture(Engine.video_source)
         count = 0
         success = True
         fps = int(vidcap.get(cv2.CAP_PROP_FPS))
@@ -110,7 +140,7 @@ class Engine(object):
 
             if count % (10 * fps) == 0:
                  seconds = int(count / fps)
-                 cv2.imwrite(f"{output_dir}/f-{count}__{seconds}-secs.jpg", image)
+                 cv2.imwrite(f"{Engine.output_dir}/f-{count}__{seconds}-secs.jpg", image)
                  print(f"successfully written {count}th frame at {seconds} seconds")
 
                  # Run method to analyze the frame we just captured.

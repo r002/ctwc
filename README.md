@@ -22,3 +22,5 @@ C:\code\ctwc>python -m analyzer.runner
 
 ## Extra Notes
 ROI = image[y1:y2, x1:x2]
+
+In Part01, the first game starts at 2:12 (132,000 ms)
