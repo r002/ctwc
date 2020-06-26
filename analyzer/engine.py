@@ -2,6 +2,7 @@ import cv2
 import os
 import numpy as np
 from .vars import Vars as v
+import sys
 
 class Engine(object):
 
@@ -22,6 +23,61 @@ class Engine(object):
     video_source = "C:/code/ctwc/analyzer/part01.mp4"
     output_dir = "C:/code/ctwc/analyzer/frames"
 
+    # Initialize the internal representation of the game board
+    d = np.zeros((20,10))
+
+    ## Accepts a video frame image and extracts Jeff's gameboard (upper left).
+    ## Extracts the "board state" from the screenshot.
+    @staticmethod
+    def extract_board(image):
+        # board = image[10:500, 710:910]  # Include name
+        board = image[14:432, 716:928]    # Only the board
+
+        # cv2.imshow(f"Testing board", board)
+        # cv2.waitKey(0)
+
+        x_start=716
+        y_start=14
+        b_width=21
+        b_height=21
+
+        # Iterate through the entire board to capture the state
+        for y in range(20):
+            for x in range(10):
+                x1=x_start+x*b_width
+                x2=x_start+(x+1)*b_width
+                y1=y_start+y*b_height
+                y2=y_start+(y+1)*b_height
+                # print(f"{x1}, {x2} | {y1}, {y2}")
+                square = image[y1:y2, x1:x2]
+                m = int(np.mean(square))
+                # print(f"\t m{x} val: {m}\n")
+                Engine.d[y][x] = m
+                # cv2.imshow(f"Testing square", square)
+                # cv2.waitKey(0)
+
+        # print(f"***internal board state:\n{Engine.d}", end="\r")
+        print(f"{Engine.d}")
+        # sys.stdout.flush()
+
+
+        # x=0
+        # y=0
+        # x1=14+x*21
+        # x2=14+(x+1)*21
+        # y1=716+y*20
+        # y2=716+(y+1)*20
+        # # print(f"{x1}, {x2} | {y1}, {y2}")
+        # square = image[x1:x2, y1:y2]
+        # m = np.mean(square)
+        # print(f"*** mean: {m}")
+        # # print(f"***square mean: {np.mean(square)} | sum: {sum(square)}")
+        # # pixel = image[x1, y1]
+        # # print(f"***pixel: {pixel} | sum: {sum(pixel)}")
+        # cv2.imshow(f"Testing square", square)
+
+        # cv2.imshow(f"Testing extract_board", board)
+        # cv2.waitKey(0)
 
     ## Match against our known templates to identify the tetromino
     @staticmethod
@@ -45,7 +101,7 @@ class Engine(object):
             print(f"Match % against {template[1]}: {res}")
             if res > champ[1]:
                 champ = template[1], res
-        print(f"\nMatch: {champ[0]} - {champ[1]}")
+        print(f"\nMatch: {champ[0]} - {champ[1]}\n\n")
 
 
     ## This method analyzes a video and identifies what tetromino appears in
@@ -55,28 +111,36 @@ class Engine(object):
         vidcap = cv2.VideoCapture(Engine.video_source)
         vidcap.set(cv2.CAP_PROP_POS_MSEC, 132000) # skip to the 2:12 mark (Start of first game)
 
-        count = 0
+        frame_no = 1
         success = True
         fps = int(vidcap.get(cv2.CAP_PROP_FPS))
         print(f"fps: {fps}")
 
         while success:
             success, image = vidcap.read()
-            if count % (10 * fps) == 0:
-                 seconds = int(count / fps)
-                 # cv2.imwrite(f"{Engine.output_dir}/f-{count}__{seconds}-secs.jpg", image)
-                 # print(f"successfully written {count}th frame at {seconds} seconds")
+            # if count % (10 * fps) == 0:
 
-                 # Run method to analyze the frame we just captured.
-                 # 1. What Tetris piece was just dropped?
-                 Engine.identify_tetromino(image)
-                 cv2.imshow(f"Frame - {seconds}", image)
-                 cv2.waitKey(0)
+            seconds = int(frame_no / fps)
+            # cv2.imwrite(f"{Engine.output_dir}/f-{count}__{seconds}-secs.jpg", image)
+            # print(f"successfully written {count}th frame at {seconds} seconds")
 
-                 # 2. What is the current score?
-                 # TO-DO
+            # Run method to analyze the frame we just captured.
+            # 1. What Tetris piece was just dropped?
+            os.system('cls')  # Will clear the entire console screen (Windows)
+            print(f"Frame no: {frame_no}")  # UNCOMMENT to print frame no
+            Engine.extract_board(image)
 
-            count += 1
+
+            # Engine.identify_tetromino(image)  # UNCOMMENT to Parse the next box
+
+            # cv2.imshow(f"Frame no: {frame_no} | Seconds: {seconds}", image)
+            # cv2.imshow(f"Frame no: x | Seconds: {seconds}", image)
+            # cv2.waitKey(0)
+
+             # 2. What is the current score?
+             # TO-DO
+
+            frame_no += 1
 
             # if success:
                 # cv2.imwrite("C:/code/ctwc/analyzer/frame50sec.jpg", image)     # save frame as JPEG file
@@ -148,25 +212,3 @@ class Engine(object):
                  # 2. What is the current score?
 
             count += 1
-
-
-
-
-
-
-
-    # @staticmethod
-    # def video_to_frames(video, path_output_dir):
-    #     # extract frames from a video and save to directory as 'x.png' where
-    #     # x is the frame index
-    #     vidcap = cv2.VideoCapture(video)
-    #     count = 0
-    #     while vidcap.isOpened():
-    #         success, image = vidcap.read()
-    #         if success:
-    #             cv2.imwrite(os.path.join(path_output_dir, '%d.png') % count, image)
-    #             count += 1
-    #         else:
-    #             break
-    #     cv2.destroyAllWindows()
-    #     vidcap.release()

@@ -71,27 +71,32 @@ options = {1 : engine.sample_video,
            3 : parse_single_image,
            4 : identify_tetromino,
            5 : engine.process_video,
+           6 : engine.extract_board,
            0 : invoke_exit
 }
 
-# Present an options menu to solicit the user's input
-while True:
-    prompt = """
-_______________________________
+# Auto-run option 5
+options[5]()
 
------ CTWC Video Analyzer -----
-_______________________________
-
-Please input your command:
-
-1) Sample video
-2) Parse images
-3) Parse single image
-4) Identify tetromino
-5) Process video
-0) Exit
-
-$Command me, baby> """
-    choice = input(prompt)
-    print()
-    options[int(choice)]()
+# # Present an options menu to solicit the user's input
+# while True:
+#     prompt = """
+# _______________________________
+#
+# ----- CTWC Video Analyzer -----
+# _______________________________
+#
+# Please input your command:
+#
+# 1) Sample video
+# 2) Parse images
+# 3) Parse single image
+# 4) Identify tetromino
+# 5) Process video
+# 6) Extract Game Board (Test)
+# 0) Exit
+#
+# $Command me, baby> """
+#     choice = input(prompt)
+#     print()
+#     options[int(choice)]()
