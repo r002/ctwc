@@ -58,6 +58,9 @@ class Engine(object):
 
         # print(f"***internal board state:\n{Engine.d}", end="\r")
         print(f"{Engine.d}")
+
+        sys.stdout.write('\x1b[1A'*21)  # Move cursor back up 21 lines
+
         # sys.stdout.flush()
 
 
@@ -126,7 +129,9 @@ class Engine(object):
 
             # Run method to analyze the frame we just captured.
             # 1. What Tetris piece was just dropped?
-            os.system('cls')  # Will clear the entire console screen (Windows)
+
+            # os.system('cls')  # Will clear the entire console screen (Windows)
+
             print(f"Frame no: {frame_no}")  # UNCOMMENT to print frame no
             Engine.extract_board(image)
 
