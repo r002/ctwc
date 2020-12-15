@@ -1,0 +1,15 @@
+{
+  "name": "ctwc_services",
+  "version": "1.0.0",
+  "description": "Provides all CTWC webservices.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Robert Lin",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "node-fetch": "^2.6.1"
+  }
+}
