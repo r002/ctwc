@@ -1,0 +1,107 @@
+[
+    {
+      "id": 777,
+      "player_code": "joseph",
+      "twitch": "JdMfX_",
+      "name": "Joseph Saelee",
+      "location": "USCA"
+    },
+    {
+      "id": 775,
+      "player_code": "jonas",
+      "twitch": "NubbinsGoody",
+      "name": "Jonas Neubauer",
+      "location": "USCA"
+    },
+    {
+      "id": 705,
+      "player_code": "digginout",
+      "twitch": "digginout",
+      "name": "Jeff Moore",
+      "location": "USNV"
+    },
+    {
+      "id": 860,
+      "player_code": "quaid",
+      "twitch": "TotalRADNes",
+      "name": "Quaid",
+      "location": "USCA"
+    },
+    {
+      "id": 770,
+      "player_code": "jerpidude",
+      "twitch": "jerpidude",
+      "name": "Jerpidude",
+      "location": "USCO"
+    },
+    {
+      "id": 752,
+      "player_code": "harry",
+      "twitch": "SuPaSaYaJiN",
+      "name": "Harry Hong",
+      "location": "USCA"
+    },
+    {
+      "id": 758,
+      "player_code": "iannibba",
+      "twitch": "iannibba",
+      "name": "IanNibba",
+      "location": "USHI"
+    },
+    {
+      "id": 888,
+      "player_code": "scottobozo",
+      "twitch": "scottobozo",
+      "name": "Scottobozo",
+      "location": "USOR"
+    },
+    {
+      "id": 920,
+      "player_code": "terry",
+      "twitch": "Terry Purcell",
+      "name": "Terry Purcell",
+      "location": "USOR"
+    },
+    {
+      "id": 628,
+      "player_code": "alex_kerr",
+      "twitch": "Kitaru",
+      "name": "Alex Kerr",
+      "location": "USCA"
+    },
+    {
+      "id": 887,
+      "player_code": "schoolmstr",
+      "twitch": "theschoolmaster",
+      "name": "Matt Schoolmaster",
+      "location": "USCO"
+    },
+    {
+      "id": 864,
+      "player_code": "redshurt",
+      "twitch": "redshurt",
+      "name": "RedShurt",
+      "location": "USOR"
+    },
+    {
+      "id": 810,
+      "player_code": "megaretro",
+      "twitch": "MegaRetroMan",
+      "name": "Mega RetroMan",
+      "location": "USWA"
+    },
+    {
+      "id": 725,
+      "player_code": "etfruit",
+      "twitch": "ETFruitNinja",
+      "name": "ETFruitNinja",
+      "location": "USWA"
+    },
+    {
+      "id": 930,
+      "player_code": "trey",
+      "twitch": "treylorswift",
+      "name": "Trey Harrison",
+      "location": "USCA"
+    }
+]
