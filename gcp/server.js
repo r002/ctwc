@@ -2,11 +2,49 @@ const e = require('express')
 const express = require('express')
 const app = express()
 const fetch = require('node-fetch')
+const {BigQuery} = require('@google-cloud/bigquery')
 
 app
   .get('/v1/player/:player_name', (req, res) => get_player(req, res))
   .get('/v1/player/:player_name/image', (req, res) => get_player_img(req, res))
 
+  .get('/v1/match/:match_id', (req, res) => queryCtwcCloud(req, res))
+
+
+queryCtwcCloud = async (req, res) => {
+  // Create a client
+  const bigqueryClient = new BigQuery()
+
+  // The SQL query to run
+  const sqlQuery = `SELECT
+    Game_Id, Match_Id, Series, Event, Round, Video_Id, Player_1, Player_2, Timestamp, Time_Seconds,
+    Player_1_Score, Player_2_Score, Match_Winner, Match_Score
+    FROM \`ctwc-cloud.ctwc_dataset.ctwc\`
+    WHERE Match_Id=@match_id
+    LIMIT 10`
+
+  const options = {
+    query: sqlQuery,
+    // Location must match that of the dataset(s) referenced in the query.
+    location: 'US',
+    params: {match_id: `${req.params.match_id}`}
+  }
+
+  // Run the query
+  const [match] = await bigqueryClient.query(options)
+
+  console.log(`Query Results for Match: ${req.params.match_id}`)
+
+  match.forEach(game => {
+      game.Video_Url = `https://youtu.be/${game.Video_Id}?t=${game.Time_Seconds}`
+      delete game.Video_Id
+      delete game.Time_Seconds
+  })
+
+  console.log(match)
+
+  res.send(match)
+}
 
 get_player = async (req, res) => {
   // res.send(`>> Player Fetched: ${req.params.player_name}`)
