@@ -9,7 +9,12 @@
   "author": "Robert Lin",
   "license": "ISC",
   "dependencies": {
+    "@google-cloud/bigquery": "^5.5.0",
     "express": "^4.17.1",
     "node-fetch": "^2.6.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/r002/ctwc"
   }
 }
